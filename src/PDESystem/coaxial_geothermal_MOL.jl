@@ -47,8 +47,8 @@ Dz = Differential(z)
 Dt = Differential(t)
 
 # Define constants
-v = 9.0 #Velocity [m / s]
-c_p = FluidSpecificHeat
+V = PumpSpeed # volumetric flow rate [m^3/s]
+c_p = FluidDensity * FluidSpecificHeat # volumetric heat capacity [J/m^3/K]
 
 α_inner = FluidThermalConductivity / InnerRadius
 α_outer = RockThermalConductivity / (OuterRadius)
@@ -56,13 +56,13 @@ c_p = FluidSpecificHeat
 u_inner = 2π * InnerRadius
 u_outer = 2π * OuterRadius
 
-A_inner = InnerArea
-A_outer = OuterArea - A_inner
+A_inner = π * RadiusInner^2 # cross sectional area of inner pipe
+A_outer = π * (RadiusInner^2 - RadiusOuter^2) # cross sectional area of outer pipe
 
 # See PDF for equations - note that the advection term signs are inverted
 
-eqs = [A_inner * c_p * Dt(Tinner(t, z)) + v * Dz(Tinner(t, z)) ~ -u_inner * α_inner * (Tinner(t, z) - Touter(t, z)),
-    A_outer * c_p * Dt(Touter(t, z)) - v * Dz(Touter(t, z)) ~ u_inner * α_inner * (Tinner(t, z) - Touter(t, z)) +
+eqs = [A_inner * c_p * Dt(Tinner(t, z)) + V * c_p * Dz(Tinner(t, z)) ~ -u_inner * α_inner * (Tinner(t, z) - Touter(t, z)),
+    A_outer * c_p * Dt(Touter(t, z)) - V * c_p * Dz(Touter(t, z)) ~ u_inner * α_inner * (Tinner(t, z) - Touter(t, z)) +
                                                               u_outer * α_outer * (AmbientTemperature(earth, z) - Touter(t, z)),
 ]
 
