@@ -57,7 +57,7 @@ u_inner = 2π * InnerRadius
 u_outer = 2π * OuterRadius
 
 A_inner = π * RadiusInner^2 # cross sectional area of inner pipe
-A_outer = π * (RadiusInner^2 - RadiusOuter^2) # cross sectional area of outer pipe
+A_outer = π * (RadiusOuter^2 - RadiusInner^2) # cross sectional area of outer pipe
 
 # See PDF for equations - note that the advection term signs are inverted
 
